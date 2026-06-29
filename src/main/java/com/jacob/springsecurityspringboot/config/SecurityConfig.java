@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -20,7 +20,10 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/login?fail").permitAll() // Must permit public access
-                .anyRequest().authenticated()
+                        .requestMatchers("findAll").hasRole("管理员")
+                        .requestMatchers("find").hasRole("管理员")
+                        .requestMatchers("/find").hasAuthority("menu:user")
+                        .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .failureUrl("/login?fail") // Custom failure destination
@@ -28,6 +31,7 @@ public class WebSecurityConfig {
                     .failureForwardUrl("/fail")
                 .permitAll()
             );
+
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

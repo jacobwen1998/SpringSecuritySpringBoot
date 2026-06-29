@@ -1,12 +1,20 @@
 package com.jacob.springsecurityspringboot.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class IndexController {
+
+    @GetMapping("findAll")
+    @ResponseBody
+    public String findAll(){
+        return "findAll";
+    }
+    @GetMapping("find")
+    @ResponseBody
+    public String find(){
+        return "find";
+    }
 
     @RequestMapping("index")
     @ResponseBody
