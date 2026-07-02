@@ -19,14 +19,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/login?fail").permitAll() // Must permit public access
-                        .requestMatchers("findAll").hasRole("管理员")
-                        .requestMatchers("find").hasRole("管理员")
+                .requestMatchers("/user/login", "/login.html").permitAll() // Must permit public access
+                        .requestMatchers("/findAll").hasRole("管理员")
+                        .requestMatchers("/find").hasRole("管理员")
                         .requestMatchers("/find").hasAuthority("menu:user")
                         .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .failureUrl("/login?fail") // Custom failure destination
+                    .loginPage("/login.html")
+                    .loginProcessingUrl("/user/login")
                     .defaultSuccessUrl("/index")
                     .failureForwardUrl("/fail")
                 .permitAll()
