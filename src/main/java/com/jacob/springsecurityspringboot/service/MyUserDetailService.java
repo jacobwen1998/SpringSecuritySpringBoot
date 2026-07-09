@@ -30,6 +30,7 @@ public class MyUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         QueryWrapper<Users> queryWrapper = new QueryWrapper<Users>();
         queryWrapper.eq("username", s);
+        //Users users = null;
         Users users = (Users) usersMapper.selectOne(queryWrapper);
         if (users == null) {
             throw new UsernameNotFoundException("username not found");
